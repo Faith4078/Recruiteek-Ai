@@ -142,6 +142,5 @@ Each dimension returns a numeric score plus a one-to-two sentence improvement no
 - [ ] Multi-round interview simulation (HR screen → technical → behavioral)
 - [ ] Filler word detection and pacing analysis
 - [ ] Comparative scoring across sessions
-- [ ] Shareable feedback reports (PDF export)
 
 ---
