@@ -84,7 +84,7 @@ Most interview prep tools are passive — flashcard-based, text-heavy, and disco
 **Prerequisites:** Node.js 18+, Firebase project, Vapi account, Google AI Studio API key
 
 ```bash
-git clone https://github.com/faithoyewole/recruiteek-ai
+git clone https://github.com/Faith4078/Recruiteek-Ai
 cd recruiteek-ai
 npm install
 ```
