@@ -97,3 +97,34 @@ interface InterviewFormProps {
 interface TechIconProps {
   techStack: string[];
 }
+
+interface SanityImage {
+  asset: {
+    _ref: string;
+    _type: string;
+  };
+  alt?: string;
+}
+
+interface BlogAuthor {
+  name: string;
+  image?: SanityImage;
+}
+
+interface BlogPost {
+  _id: string;
+  title: string;
+  slug: string;
+  excerpt: string;
+  mainImage?: SanityImage;
+  category?: string;
+  publishedAt: string;
+  readingTime?: number;
+  author?: BlogAuthor;
+}
+
+interface BlogPostDetail extends BlogPost {
+  body: PortableTextBlock[];
+}
+
+type PortableTextBlock = Record<string, unknown>;

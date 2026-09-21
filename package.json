@@ -11,8 +11,11 @@
   "dependencies": {
     "@ai-sdk/google": "^1.1.25",
     "@hookform/resolvers": "^4.1.3",
+    "@portabletext/react": "^8.0.1",
     "@radix-ui/react-label": "^2.1.2",
     "@radix-ui/react-slot": "^1.1.2",
+    "@sanity/client": "^8.6.2",
+    "@sanity/image-url": "^2.1.1",
     "@vapi-ai/web": "^2.2.4",
     "ai": "^4.1.61",
     "class-variance-authority": "^0.7.1",
