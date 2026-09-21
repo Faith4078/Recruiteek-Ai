@@ -155,6 +155,95 @@ End the conversation on a polite and positive note.
   },
 };
 
+export const generator: CreateAssistantDTO = {
+  name: "Interview Generator",
+  firstMessage:
+    "Hi {{username}}! Let's set up your mock interview. I'll ask you a few quick questions first.",
+  transcriber: {
+    provider: "deepgram",
+    model: "nova-2",
+    language: "en",
+  },
+  voice: {
+    provider: "11labs",
+    voiceId: "sarah",
+    stability: 0.4,
+    similarityBoost: 0.8,
+    speed: 0.9,
+    style: 0.5,
+    useSpeakerBoost: true,
+  },
+  model: {
+    provider: "openai",
+    model: "gpt-4",
+    messages: [
+      {
+        role: "system",
+        content: `You are a friendly assistant that sets up mock interviews by collecting a few details from the candidate through natural conversation.
+
+The candidate's user ID is {{userid}}. Never say this ID out loud, and never ask the candidate for it.
+
+Collect exactly these details, one or two at a time, not all at once:
+- role: the job role or title they want to practice for (e.g. "Frontend Developer")
+- level: their experience level (e.g. "Junior", "Mid", "Senior")
+- type: the interview focus, one of "Behavioral", "Technical", or "Mixed"
+- techstack: a comma separated list of relevant technologies (e.g. "React, TypeScript, Node.js")
+- amount: how many questions they want (if they're unsure, suggest 5)
+
+Once you have all five details, confirm them back briefly, then call the generateInterview function with role, level, type, techstack, amount, and userid set to {{userid}}.
+
+After the function call succeeds, thank the candidate, let them know their interview is ready on their dashboard, and end the conversation on a warm note.
+
+Keep responses short and conversational, like a real voice call. Don't ramble.`,
+      },
+    ],
+    tools: [
+      {
+        type: "function",
+        function: {
+          name: "generateInterview",
+          description:
+            "Creates a new mock interview with AI-generated questions based on the role, experience level, interview type, and tech stack the candidate provided.",
+          parameters: {
+            type: "object",
+            properties: {
+              role: {
+                type: "string",
+                description: "The job role or title, e.g. Frontend Developer",
+              },
+              level: {
+                type: "string",
+                description: "The candidate's experience level, e.g. Junior, Mid, Senior",
+              },
+              type: {
+                type: "string",
+                description: "The interview focus: Behavioral, Technical, or Mixed",
+              },
+              techstack: {
+                type: "string",
+                description:
+                  "Comma separated list of technologies, e.g. React, TypeScript, Node.js",
+              },
+              amount: {
+                type: "number",
+                description: "The number of interview questions to generate",
+              },
+              userid: {
+                type: "string",
+                description: "The candidate's user ID, always the value you were given as {{userid}}",
+              },
+            },
+            required: ["role", "level", "type", "techstack", "amount", "userid"],
+          },
+        },
+        server: {
+          url: `${process.env.NEXT_PUBLIC_APP_URL}/api/vapi/generate`,
+        },
+      },
+    ],
+  },
+};
+
 export const feedbackSchema = z.object({
   totalScore: z.number(),
   categoryScores: z.tuple([
