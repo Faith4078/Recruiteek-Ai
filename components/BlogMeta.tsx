@@ -22,9 +22,9 @@ const BlogMeta = ({
   return (
     <div className={cn("blog-meta", className)}>
       {items.map((item, index) => (
-        <span key={item} className="flex items-center gap-2">
+        <span key={item} className="contents">
           {index > 0 && <span aria-hidden="true">&bull;</span>}
-          {item}
+          <span>{item}</span>
         </span>
       ))}
     </div>
