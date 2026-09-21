@@ -4,6 +4,7 @@ import dayjs from "dayjs";
 import { Newspaper } from "lucide-react";
 
 import { urlForImage } from "@/lib/sanity/image";
+import BlogMeta from "@/components/BlogMeta";
 
 const BlogCard = ({ post }: { post: BlogPost }) => {
   const coverUrl = post.mainImage
@@ -39,11 +40,12 @@ const BlogCard = ({ post }: { post: BlogPost }) => {
 
         <p className="line-clamp-3">{post.excerpt}</p>
 
-        <div className="blog-meta mt-auto">
-          {post.author?.name && <span>{post.author.name}</span>}
-          <span>{formattedDate}</span>
-          {post.readingTime && <span>{post.readingTime} min read</span>}
-        </div>
+        <BlogMeta
+          author={post.author?.name}
+          formattedDate={formattedDate}
+          readingTime={post.readingTime}
+          className="mt-auto"
+        />
       </div>
     </Link>
   );

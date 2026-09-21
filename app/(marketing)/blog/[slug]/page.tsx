@@ -6,6 +6,7 @@ import type { Metadata } from "next";
 import { ArrowLeft } from "lucide-react";
 
 import PortableTextRenderer from "@/components/PortableTextRenderer";
+import BlogMeta from "@/components/BlogMeta";
 import { urlForImage } from "@/lib/sanity/image";
 import { getPostBySlug, getAllPostSlugs } from "@/lib/sanity/queries";
 
@@ -63,11 +64,12 @@ const BlogPostPage = async ({
           <p className="blog-category mx-auto">{post.category}</p>
         )}
         <h2>{post.title}</h2>
-        <div className="blog-meta justify-center">
-          {post.author?.name && <span>{post.author.name}</span>}
-          <span>{formattedDate}</span>
-          {post.readingTime && <span>{post.readingTime} min read</span>}
-        </div>
+        <BlogMeta
+          author={post.author?.name}
+          formattedDate={formattedDate}
+          readingTime={post.readingTime}
+          className="justify-center"
+        />
       </div>
 
       {coverUrl && (

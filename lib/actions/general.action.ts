@@ -98,31 +98,43 @@ export async function getLatestInterviews(
 ): Promise<Interview[] | null> {
   const { userId, limit = 20 } = params;
 
-  const interviews = await getFirebaseDb()
-    .collection("interviews")
-    .orderBy("createdAt", "desc")
-    .where("finalized", "==", true)
-    .where("userId", "!=", userId)
-    .limit(limit)
-    .get();
+  try {
+    const interviews = await getFirebaseDb()
+      .collection("interviews")
+      .orderBy("createdAt", "desc")
+      .where("finalized", "==", true)
+      .where("userId", "!=", userId)
+      .limit(limit)
+      .get();
 
-  return interviews.docs.map((doc) => ({
-    id: doc.id,
-    ...doc.data(),
-  })) as Interview[];
+    return interviews.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    })) as Interview[];
+  } catch (error) {
+    // The landing page renders this for anonymous visitors, so a backend
+    // hiccup here should degrade gracefully instead of crashing the page.
+    console.error("Error fetching latest interviews:", error);
+    return null;
+  }
 }
 
 export async function getInterviewsByUserId(
   userdId: string
 ): Promise<Interview[] | null> {
-  const interviews = await getFirebaseDb()
-    .collection("interviews")
-    .where("userId", "==", userdId)
-    .orderBy("createdAt", "desc")
-    .get();
+  try {
+    const interviews = await getFirebaseDb()
+      .collection("interviews")
+      .where("userId", "==", userdId)
+      .orderBy("createdAt", "desc")
+      .get();
 
-  return interviews.docs.map((doc) => ({
-    id: doc.id,
-    ...doc.data(),
-  })) as Interview[];
+    return interviews.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    })) as Interview[];
+  } catch (error) {
+    console.error("Error fetching user interviews:", error);
+    return null;
+  }
 }
